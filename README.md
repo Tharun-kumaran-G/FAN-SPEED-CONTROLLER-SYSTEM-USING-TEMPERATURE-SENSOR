@@ -3,7 +3,7 @@
 # EXP 1(A) FAN SPEED CONTROLLER SYSTEM USING TEMPERATURE SENSOR
 
 # Aim:
-	To measure the Temperature using DHT11/DHT22/TMP36  sensor with Arduino UNO Board/ESP-32 using Tinker CAD.
+To measure the Temperature using DHT11/DHT22/TMP36  sensor with Arduino UNO Board/ESP-32 using Tinker CAD.
 
 # Hardware / Software Tools required:
 	PC/ Laptop with Internet connection
@@ -13,11 +13,10 @@
 
 # Circuit Diagram:
 
----
-To upload
---
+<img width="1211" height="818" alt="image" src="https://github.com/user-attachments/assets/70435a45-a103-4170-bf8f-4ca8b8a616b1" />
 
-# Procedure // Modify the procedure based on your circuit
+
+# Procedure
 
 Step 1: Set Up the Tinkercad Environment
 1.	Log in to Tinkercad: Open Tinkercad in your web browser and log in to your account.
@@ -58,11 +57,52 @@ Step 7: Save Your Work
 # Program
 
 ---
-To upload
+const int analogIn = A0; 
+int humiditysensorOutput = 0; 
+
+// Defining Variables 
+int RawValue = 0; 
+double Voltage = 0; 
+double tempC = 0; 
+double tempF = 0; 
+
+void setup() {   
+  Serial.begin(9600); 
+  pinMode(A1, INPUT); 
+} 
+
+void loop() { 
+  // Read temperature sensor
+  RawValue = analogRead(analogIn); 
+  Voltage = (RawValue / 1023.0) * 5000; // Convert to millivolts
+  tempC = (Voltage - 500) * 0.1;       // LM35 with 500mV offset
+  tempF = (tempC * 1.8) + 32;          // Convert to Fahrenheit   
+
+  Serial.print("Raw Value = ");                   
+  Serial.print(RawValue);       
+  Serial.print("\t Milli Volts = "); 
+  Serial.print(Voltage, 0); 
+  Serial.print("\t Temperature in C = "); 
+  Serial.print(tempC, 1); 
+  Serial.print("\t Temperature in F = "); 
+  Serial.println(tempF, 1); 
+
+  // Read humidity sensor
+  humiditysensorOutput = analogRead(A1); 
+  int humidityPercent = map(humiditysensorOutput, 0, 1023, 10, 70);
+
+  Serial.print("Humidity: "); 
+  Serial.print(humidityPercent); 
+  Serial.println("%"); 
+
+  delay(5000);  // iterate every 5 seconds 
+}
 --
+
+# Output
+
+<img width="1919" height="976" alt="image" src="https://github.com/user-attachments/assets/4523e4f9-0392-44e7-a410-6296bbda3a18" />
 
 # Result
 
----
-To upload
---
+The temperature and humidity values are measured using DHT11/DHT22/TMP36 sensor with Arduino UNO Board/ESP-32 and Simulated using Tinker CAD.
